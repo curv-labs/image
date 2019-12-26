@@ -126,11 +126,16 @@ export default class ImageTool {
       api,
       config: this.config,
       onSelectFile: () => {
-        this.uploader.uploadSelectedFile({
-          onPreview: (src) => {
-            this.ui.showPreloader(src);
-          }
-        });
+        // checks if the config has a custom selectImage function
+        if(Object.prototype.hasOwnProperty.call(this.config, "selectImage")) {
+          this.config.selectImage();
+        } else {
+          this.uploader.uploadSelectedFile({
+            onPreview: (src) => {
+              this.ui.showPreloader(src);
+            }
+          });
+        }
       }
     });
 
